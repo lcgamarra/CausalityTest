@@ -24,3 +24,6 @@
   * Retrieving a value knowing the symbol name is very fast, It has a complexity of O(1)
 * Since it is not know if the producer of data have a way to notify the solution there is a new CSV file the solution will try to read from the csv every second
 * I'm assuming that the total hedge position is the summary of all partial hedges by every individual stock
+
+## Flow Diagram
+![alt text](FlowDiagram.png?raw=true "")
