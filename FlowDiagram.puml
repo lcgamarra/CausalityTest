@@ -1,0 +1,89 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+fork
+
+    #lime:Pricing Thread;
+
+    repeat
+    
+        :Generate random delta price;
+        :Write new prices;
+        :Wait random(1-5) seconds;
+    
+    repeat while(True) is (yes)
+
+fork again
+
+    #lightblue:CSV Reading Thread;
+    
+    repeat
+    
+        if (Already Initialized?) then (yes)
+            repeat
+                :read csv row;
+                if (symbol stack exits?)
+                    :update stack;
+                else
+                    :create stack;
+                    :update stack;
+                endif
+            repeat while(more data?) is (yes)
+            
+        else (no)
+            :Initialize Components;
+        endif
+    
+    repeat while(True) is (yes)
+    
+
+fork again
+
+    #lightblue:Calculation Thread;
+        
+    :synchronize to 00 or 30 seconds;
+    
+    repeat
+    
+        :Calculate Hedge Position;
+        :Write info into Output Stack
+        :Write info into Logging Queues;
+        :Unlock Output Thread;
+        :Wait 30 seconds;
+    
+    repeat while(True) is (yes)
+    
+fork again
+
+    #lightblue:Ouput Thread;
+
+    while (Output Unlocked?)
+    
+        :Read from Output Stack;
+        :Print Information;
+        :Lock Output;
+        :Waits until new unlock;
+    
+    endwhile
+    
+fork again
+
+    #lightblue:Logging Thread;
+
+    repeat
+        
+        while (Logging Queue has information?)
+            :Write info into log file;
+        endwhile
+        
+        :Wait 120 seconds;
+    
+    repeat while(True) is (yes)
+
+end fork
+
+stop
+
+@enduml
